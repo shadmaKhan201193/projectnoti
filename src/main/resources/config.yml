@@ -1,0 +1,25 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10m
+  repeat_interval: 1h
+  receiver: 'email_notifications'
+receivers:
+- name: 'email_notifications'
+  email_configs:
+  - to: cnpoc_tech_team@infrasofttech.com
+    from: cnpoc_tech_team@infrasofttech.com
+    smarthost: smtp.office365.com:587
+    auth_username: sadma.khan@kiya.ai
+    auth_identity: sadma.khan@kiya.ai
+    auth_password: sk$feb2023
+    send_resolved: true
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']

@@ -1,0 +1,23 @@
+app: master-service
+
+replicaCount: 1
+containers:
+  name: notification-service 
+
+image:
+  pullPolicy: IfNotPresent
+  
+service:
+  type: ClusterIP
+  targetport: 8080
+  port: 80
+
+livenessProbe:
+  enabled: true
+  path: /api/health
+  scheme: HTTP
+  initialDelaySeconds: 120
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
